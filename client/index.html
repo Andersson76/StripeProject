@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+
+<html>
+  <head>
+    <title>TechStore</title>
+    
+    <script src="https://use.fontawesome.com/86ad615387.js"></script>
+    <script defer type="module" src="logic.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <header>
+      <h1 onclick="createUIFromLoadedItemsData()">TechStore</h1>
+      <a onclick="showShoppingCart()">
+        <span id="counter"></span> <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+      </a>
+    </header>
+
+    <div id="main">
+      <!-- add items here! -->
+    </div>
+
+  </body>
+</html>
+
+
