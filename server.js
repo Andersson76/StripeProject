@@ -1,11 +1,14 @@
 import express from 'express'
 import fetch from 'node-fetch'
+import Stripe from 'stripe'
+import dotenv from 'dotenv'
+dotenv.config('.env')
 
+//const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 const app = express()
 const port = 3000
 
-const stripe = require("stripe")('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');
 
 app.use(express.json()) 
 app.use("/", express.static("client"))
