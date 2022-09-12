@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "express": "^4.18.1",
+    "node-fetch": "^3.2.10",
+    "nodemon": "^2.0.19",
+    "stripe": "^10.8.0",
+    "y": "^0.3.2"
+  },
+  "name": "stripeproject",
+  "description": "A school project with a webshop using Stripe for payments",
+  "version": "1.0.0",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Andersson76/StripeProject.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Andersson76/StripeProject/issues"
+  },
+  "homepage": "https://github.com/Andersson76/StripeProject#readme"
+}
