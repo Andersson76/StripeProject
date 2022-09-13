@@ -3,10 +3,12 @@ import fetch from 'node-fetch'
 import Stripe from 'stripe'
 import dotenv from 'dotenv'
 dotenv.config('.env')
+console.log(dotenv.config('.env').parsed.STRIPE_SECRET_KEY)
 
 const app = express()
 const port = 3000
 
+export const stripe = Stripe(dotenv.config('.env').parsed.STRIPE_SECRET_KEY)
 
 app.use(express.json()) 
 app.use("/", express.static("client"))
@@ -31,7 +33,7 @@ app.post("/create-payment-intent", async (req, res) => {
   });
 
   res.send({
-    clientSecret: paymentIntent.client_secret,
+    clientSecret: paymentIntent.client_secret
   });
 });
 
