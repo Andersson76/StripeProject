@@ -145,9 +145,11 @@ function createShoppingSummary() {
     
     /* Proceed button */
     var proceedButton = document.createElement("button");
+
     proceedButton.innerHTML = '<i class="fa fa-check" aria-hidden="true"></i>' + "&nbsp;&nbsp;&nbsp;" + "Slutför ditt köp";
     proceedButton.onclick = function() {
-        alert("Tack för din beställning, vi önskar dig en fin kväll! Ses snart igen =)");
+        window.location.pathname = "checkout.html"
+        //alert("Tack för din beställning, vi önskar dig en fin kväll! Ses snart igen =)");
     };
 
     var info = document.createElement("div");
