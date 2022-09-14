@@ -23,7 +23,7 @@ async function initialize() {
   const { clientSecret } = await response.json();
 
   const appearance = {
-    theme: 'stripe',
+    theme: 'flat',
   };
   elements = stripe.elements({ appearance, clientSecret });
 
@@ -39,7 +39,9 @@ async function handleSubmit(e) {
     elements,
     confirmParams: {
       // Make sure to change this to your payment completion page
-      return_url: "http://localhost:3000/index.html",
+      return_url: "http://localhost:3000/success.html",
+      receipt_email: document.getElementById("email").value,
+
     },
   });
 

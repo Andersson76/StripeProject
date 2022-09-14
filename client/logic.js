@@ -1,4 +1,4 @@
-const stripe = Stripe("pk_live_51LgtJ8IIsWx48M6wKYlfD8hEGDfpFCBJ1JAO19ZggedmFF2KJZpvNKS5oiswBWZ6N5vol4AGTlLobw8a9sXKblUN00FvSEHrqu");
+
 
 var itemsData;
 var shoppingCart = [];
