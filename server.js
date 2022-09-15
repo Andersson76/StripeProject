@@ -65,35 +65,72 @@ app.post("/create-payment-intent", async (req, res) => {
   });
 });
 
+//Line_items skall innehålla objekt av en produkt som skall köpas och quantity samt customerID,
+//JSon filen skall matcha line_items
+
+
+
+/* const product = await stripe.products.list({
+
+  expand: ['data.default_price']
+
+});
+*/
+
 app.post('/create-checkout-session', async (req, res) => {
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
-        // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-        price: 'price_1LhBFFIIsWx48M6wXhWcEdrj',
-        quantity: 1,
+        pricedata: {
+          currency: "sek",
+          productdata: {
+            description: "Latest and gratest smartphone from Apple.",
+            name: "iPhone X",
+            images: "iPhonex.png"
+          },
+          unit_amount: 11495
+        }
       },
       {
-        // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-        price: 'price_1LhBE1IIsWx48M6wGw14hlTB',
-        quantity: 1,
+        pricedata: {
+          currency: "sek",
+          productdata: {
+            description: "Sleek and powerful smartphone from One Plus",
+            name: "One Plus 5",
+            images: "OnePlus5.png"
+          },
+          unit_amount: 4995
+        }
       },
       {
-        // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-        price: 'price_1LhBCMIIsWx48M6wjMJemZAy',
-        quantity: 1,
+        pricedata: {
+          currency: "sek",
+          productdata: {
+            description: "Latest edge to edge smartphone from Samsung.",
+            name: "Galaxy S8",
+            images: "SamsungS8.png"
+          },
+          unit_amount: 7990
+        }
       },
       {
-        // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-        price: 'price_1LhB9QIIsWx48M6wxmV1eEjV',
-        quantity: 1,
-      }
+        pricedata: {
+          currency: "sek",
+          productdata: {
+            description: "Super nice and beautiful smartphone from LG.",
+            name: "LG V30",
+            images: "LGV30.png"
+          },
+          unit_amount: 7495
+        }
+      },
     ],
     mode: 'payment',
-    /* success_url: `${YOUR_DOMAIN}/success.html`,
-    cancel_url: `${YOUR_DOMAIN}/cancel.html`, */
+    //success_url: `${YOUR_DOMAIN}/success.html`,
+    //cancel_url: `${YOUR_DOMAIN}/cancel.html`, 
     automatic_tax: {enabled: true},
   });
+  //res.json(product.data)
 
   res.redirect(303, session.url);
 });

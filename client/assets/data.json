@@ -1,23 +1,24 @@
 [
     {
-        "title": "iPhone X",
+        "name": "iPhone X",
         "description": "Latest and gratest smartphone from Apple.",
         "image": "iPhonex.png",
-        "price": 11495
+        "unit_amount": 11495
+        
     },{
-        "title": "One Plus 5",
+        "name": "One Plus 5",
         "description": "Sleek and powerful smartphone from One Plus",
-        "image": "OnePlus5.png",
-        "price": 4995
+        "images": "OnePlus5.png",
+        "unit_amount": 4995
     },{
-        "title": "Galaxy S8",
+        "name": "Galaxy S8",
         "description": "Latest edge to edge smartphone from Samsung.",
-        "image": "SamsungS8.png",
-        "price": 7990
+        "images": "SamsungS8.png",
+        "unit_amount": 7990
     },{
-        "title": "LG V30",
+        "name": "LG V30",
         "description": "Super nice and beautiful smartphone from LG.",
-        "image": "LGV30.png",
-        "price": 7495
+        "images": "LGV30.png",
+        "unit_amount": 7495
     }
 ]
