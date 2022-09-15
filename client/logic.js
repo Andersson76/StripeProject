@@ -36,9 +36,9 @@ function createUIFromLoadedItemsData() {
 }
 
 function createListItem(itemData) {
-    /* Title */
-    var title = document.createElement("h3");
-    title.innerText = itemData.title;
+    /* Name */
+    var name = document.createElement("h3");
+    name.innerText = itemData.name;
     
     /* Description */
     var description = document.createElement("p");
@@ -48,9 +48,9 @@ function createListItem(itemData) {
     var image = document.createElement("img");
     image.src = "./assets/" + itemData.image;
 
-    /* Price */
-    var price = document.createElement("span");
-    price.innerText = "" + itemData.price + " kr";
+    /* Unit_amount */
+    var unit_amount = document.createElement("span");
+    unit_amount.innerText = "" + itemData.unit_amount + " kr";
     
     /* Button */
     var button = document.createElement("button");
@@ -62,10 +62,10 @@ function createListItem(itemData) {
     };
 
     var item = document.createElement("li");
-    item.appendChild(title);
+    item.appendChild(name);
     item.appendChild(description);
     item.appendChild(image);
-    item.appendChild(price);
+    item.appendChild(unit_amount);
     item.appendChild(button);
 
     return item;
@@ -103,13 +103,13 @@ function createShoppingCartItem(itemData, index) {
     var image = document.createElement("img");
     image.src = "./assets/" + itemData.image;
 
-    /* Title */
-    var title = document.createElement("h3");
-    title.innerText = itemData.title;
+    /* Name */
+    var name = document.createElement("h3");
+    name.innerText = itemData.name;
 
-    /* Price */
-    var price = document.createElement("span");
-    price.innerText = "" + itemData.price + " kr";
+    /* Unit_amount */
+    var unit_amount = document.createElement("span");
+    unit_amount.innerText = "" + itemData.unit_amount + " kr";
     
     /* Button */
     var button = document.createElement("button");
@@ -127,8 +127,8 @@ function createShoppingCartItem(itemData, index) {
 
     var item = document.createElement("li");
     item.appendChild(image);
-    item.appendChild(title);
-    item.appendChild(price);
+    item.appendChild(name);
+    item.appendChild(unit_amount);
     item.appendChild(button);
 
     return item;
@@ -138,7 +138,7 @@ function createShoppingSummary() {
     /* Total price */
     var totalPrice = 0;
     for(var i = 0; i < shoppingCart.length; i++) {
-        totalPrice += shoppingCart[i].price;
+        totalPrice += shoppingCart[i].unit_amount;
     }
     var priceLabel = document.createElement("h2");
     priceLabel.innerText = "Totalt pris: " + totalPrice + " kr";
