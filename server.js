@@ -70,68 +70,67 @@ app.post("/create-payment-intent", async (req, res) => {
 
 
 
-/* const product = await stripe.products.list({
 
-  expand: ['data.default_price']
-
-});
-*/
 
 app.post('/create-checkout-session', async (req, res) => {
+  console.log("kommer jag in?")
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
-        pricedata: {
+        price_data: {
           currency: "sek",
-          productdata: {
+          product_data: {
             description: "Latest and gratest smartphone from Apple.",
             name: "iPhone X",
-            images: "iPhonex.png"
+            //images: "iPhonex.png"
           },
           unit_amount: 11495
-        }
+        },
+        quantity: 1
       },
       {
-        pricedata: {
+        price_data: {
           currency: "sek",
-          productdata: {
+          product_data: {
             description: "Sleek and powerful smartphone from One Plus",
             name: "One Plus 5",
-            images: "OnePlus5.png"
+            //images: "OnePlus5.png"
           },
           unit_amount: 4995
-        }
+        },
+        quantity: 1
       },
       {
-        pricedata: {
+        price_data: {
           currency: "sek",
-          productdata: {
+          product_data: {
             description: "Latest edge to edge smartphone from Samsung.",
             name: "Galaxy S8",
-            images: "SamsungS8.png"
+            //images: "SamsungS8.png"
           },
           unit_amount: 7990
-        }
+        },
+        quantity: 1
       },
       {
-        pricedata: {
+        price_data: {
           currency: "sek",
-          productdata: {
+          product_data: {
             description: "Super nice and beautiful smartphone from LG.",
             name: "LG V30",
-            images: "LGV30.png"
+            //images: "LGV30.png"
           },
           unit_amount: 7495
-        }
+        },
+        quantity: 1
       },
     ],
     mode: 'payment',
-    //success_url: `${YOUR_DOMAIN}/success.html`,
-    //cancel_url: `${YOUR_DOMAIN}/cancel.html`, 
-    automatic_tax: {enabled: true},
+    success_url: 'http://localhost:3000/success.html',
+    cancel_url: 'http://localhost:3000/cancel.html',
+   // automatic_tax: {enabled: true},
   });
-  //res.json(product.data)
-
+console.log(session)
   res.redirect(303, session.url);
 });
 

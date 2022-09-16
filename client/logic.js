@@ -147,7 +147,24 @@ function createShoppingSummary() {
     var proceedButton = document.createElement("button");
 
     proceedButton.innerHTML = '<i class="fa fa-check" aria-hidden="true"></i>' + "&nbsp;&nbsp;&nbsp;" + "Slutför ditt köp";
-    proceedButton.onclick = function() {
+    proceedButton.onclick = async function() {
+
+        const reqOptions = {
+
+            method: 'POST',
+    
+            headers: { 'Content-Type': 'application/json' },
+    
+            body: JSON.stringify(shoppingCart)
+    
+        }
+
+        let response = await fetch("/create-checkout-session", reqOptions)
+
+        let result = await response.json();
+
+        console.log(result)
+
         window.location.pathname = "checkout.html"
         //alert("Tack för din beställning, vi önskar dig en fin kväll! Ses snart igen =)");
     };
