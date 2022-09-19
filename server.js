@@ -7,7 +7,7 @@ console.log(dotenv.config('.env').parsed.STRIPE_SECRET_KEY)
 
 const app = express()
 const port = 3000
-const YOUR_DOMAIN = 'http://localhost:3000';
+//const YOUR_DOMAIN = 'http://localhost:3000';
 
 
 export const stripe = Stripe(dotenv.config('.env').parsed.STRIPE_SECRET_KEY)
@@ -69,10 +69,21 @@ app.post("/create-payment-intent", async (req, res) => {
 
 //Line_items skall innehålla objekt av en produkt som skall köpas och quantity samt customerID,
 //JSon filen skall matcha line_items
+app.post("/create-customer", async (req, res) => {
+  try {
+    const createCustomer = await stripe.customers.create({
+      //"id": "cus_4QFK8XrieeBDYp",
+      "email": "",
+      "name": "",
+      "phone": "",
 
-
-
-
+  });
+  res.json(createCustomer)
+   
+  } catch (err) {
+    console.error(err)
+  }
+})
 
 app.post('/create-checkout-session', async (req, res) => {
   console.log("kommer jag in?")
@@ -127,19 +138,19 @@ app.post('/create-checkout-session', async (req, res) => {
         },
       },
     ],
+    //customer: ,
     mode: 'payment',
-    success_url: 'http://localhost:3000/success.html?session_id={"CEHCKOUT_SESSION_ID"}',
+    success_url: 'http://localhost:3000/success.html?session_id={CEHCKOUT_SESSION_ID}',
     cancel_url: 'http://localhost:3000/cancel.html',
-   // automatic_tax: {enabled: true},
   });
+
 console.log(session)
   res.json(session.id);
+
 });
 
-
-
-
 app.use((err, req, res, next) => {
+
     console.log(err.status)
     console.log(err.message)
     res.status(500).json(err)
