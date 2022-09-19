@@ -7,6 +7,8 @@ console.log(dotenv.config('.env').parsed.STRIPE_SECRET_KEY)
 
 const app = express()
 const port = 3000
+const YOUR_DOMAIN = 'http://localhost:3000';
+
 
 export const stripe = Stripe(dotenv.config('.env').parsed.STRIPE_SECRET_KEY)
 
@@ -20,7 +22,7 @@ const calculateOrderAmount = (items) => {
   return 1400;
 };
 
-const chargeCustomer = async (customerId) => {
+/* const chargeCustomer = async (customerId) => {
   // Lookup the payment methods available for the customer
   const paymentMethods = await stripe.paymentMethods.list({
     customer: customerId,
@@ -42,7 +44,7 @@ const chargeCustomer = async (customerId) => {
     const paymentIntentRetrieved = await stripe.paymentIntents.retrieve(err.raw.payment_intent.id);
     console.log("PI retrieved: ", paymentIntentRetrieved.id);
   }
-};
+}; */
 
 app.post("/create-payment-intent", async (req, res) => {
   const { items } = req.body;
@@ -77,6 +79,7 @@ app.post('/create-checkout-session', async (req, res) => {
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
+        quantity: 3,
         price_data: {
           currency: "sek",
           product_data: {
@@ -84,11 +87,11 @@ app.post('/create-checkout-session', async (req, res) => {
             name: "iPhone X",
             //images: "iPhonex.png"
           },
-          unit_amount: 11495
-        },
-        quantity: 1
+          unit_amount: 1149500
+        }
       },
       {
+        quantity: 1,
         price_data: {
           currency: "sek",
           product_data: {
@@ -96,11 +99,11 @@ app.post('/create-checkout-session', async (req, res) => {
             name: "One Plus 5",
             //images: "OnePlus5.png"
           },
-          unit_amount: 4995
-        },
-        quantity: 1
+          unit_amount: 499500
+        }
       },
       {
+        quantity: 1,
         price_data: {
           currency: "sek",
           product_data: {
@@ -108,11 +111,11 @@ app.post('/create-checkout-session', async (req, res) => {
             name: "Galaxy S8",
             //images: "SamsungS8.png"
           },
-          unit_amount: 7990
-        },
-        quantity: 1
+          unit_amount: 799000
+        }
       },
       {
+        quantity: 2,
         price_data: {
           currency: "sek",
           product_data: {
@@ -120,18 +123,17 @@ app.post('/create-checkout-session', async (req, res) => {
             name: "LG V30",
             //images: "LGV30.png"
           },
-          unit_amount: 7495
+          unit_amount: 749500
         },
-        quantity: 1
       },
     ],
     mode: 'payment',
-    success_url: 'http://localhost:3000/success.html',
+    success_url: 'http://localhost:3000/success.html?session_id={"CEHCKOUT_SESSION_ID"}',
     cancel_url: 'http://localhost:3000/cancel.html',
    // automatic_tax: {enabled: true},
   });
 console.log(session)
-  res.redirect(303, session.url);
+  res.json(session.id);
 });
 
 

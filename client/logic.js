@@ -1,3 +1,4 @@
+const stripe = Stripe("pk_test_51LgtJ8IIsWx48M6ww2bKhPz3WKBhaNsD3qk5RPM1MmHXHQ4jMtHItX8s5JVZrDflpGRqJBCvBKay5EBcYdd20FL300uruvFgyP");
 
 
 var itemsData;
@@ -147,7 +148,10 @@ function createShoppingSummary() {
     var proceedButton = document.createElement("button");
 
     proceedButton.innerHTML = '<i class="fa fa-check" aria-hidden="true"></i>' + "&nbsp;&nbsp;&nbsp;" + "Slutför ditt köp";
+    
+    
     proceedButton.onclick = async function() {
+        try {
 
         const reqOptions = {
 
@@ -162,6 +166,11 @@ function createShoppingSummary() {
         let response = await fetch("/create-checkout-session", reqOptions)
 
         let result = await response.json();
+
+
+        }catch(err) {
+            console.log(err)
+        }
 
         console.log(result)
 
