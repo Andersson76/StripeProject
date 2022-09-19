@@ -8,17 +8,17 @@
     },{
         "name": "One Plus 5",
         "description": "Sleek and powerful smartphone from One Plus",
-        "images": "OnePlus5.png",
+        "image": "OnePlus5.png",
         "unit_amount": 4995
     },{
         "name": "Galaxy S8",
         "description": "Latest edge to edge smartphone from Samsung.",
-        "images": "SamsungS8.png",
+        "image": "SamsungS8.png",
         "unit_amount": 7990
     },{
         "name": "LG V30",
         "description": "Super nice and beautiful smartphone from LG.",
-        "images": "LGV30.png",
+        "image": "LGV30.png",
         "unit_amount": 7495
     }
 ]
