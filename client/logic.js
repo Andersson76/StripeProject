@@ -156,7 +156,7 @@ function createShoppingSummary() {
             
             const reqOptions = {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(shoppingCart)
             }
             
@@ -165,15 +165,16 @@ function createShoppingSummary() {
             let sessionId = await response.json();
             console.log(sessionId)
             
-            const redirect = stripe.redirectToCheckout({sessionId})
-            
+            const redirect = stripe.redirectToCheckout({sessionId}, /* createCustomer() */) // Få in customer id...
             console.log(redirect)
             
+            
+
         } catch (err) {
             console.log(err)
         }
     };
-    
+
     var info = document.createElement("div");
     info.appendChild(priceLabel);
     info.appendChild(proceedButton);
@@ -181,16 +182,27 @@ function createShoppingSummary() {
     return info;
 }
 
-const customer = async function() {
+
+const createCustomer = async function() {
     try {
         const customerOpt = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(createCustomer)
+            body: JSON.stringify(customerId)
         }
+
     let response = await fetch("/create-customer", customerOpt)
     console.log(response)
+
+    let customerId = await response.json();
+    console.log(customerId)
+    return customerId
+
+    /* const redirectCustomer = stripe.redirectToCheckout({customerId}) // Få in customer id...
+    console.log(redirectCustomer) */
+
 }catch(err) {
     console.log(err)
 }
 }
+
