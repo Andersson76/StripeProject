@@ -86,7 +86,8 @@ function showShoppingCart() {
     for (var index = 0; index < shoppingCart.length; index++) {
         list.appendChild(createShoppingCartItem(shoppingCart[index], index));
     }
-
+    /* Create input fields */
+    
     /* Shopping info & action */
     var info = createShoppingSummary();
 
@@ -94,6 +95,7 @@ function showShoppingCart() {
     content.appendChild(header);
     content.appendChild(list);
     content.appendChild(info);
+    content.appendChild()
 
     var container = document.querySelector("#main");
     container.replaceChild(content, container.firstChild);
@@ -153,11 +155,13 @@ function createShoppingSummary() {
     proceedButton.onclick = async function () {
 
         try {
-            
+            const newCustomerId = await createCustomer()
+            console.log(newCustomerId)
+
             const reqOptions = {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(shoppingCart)
+                body: JSON.stringify(shoppingCart, newCustomerId)
             }
             
             let response = await fetch("/create-checkout-session", reqOptions)
@@ -185,10 +189,19 @@ function createShoppingSummary() {
 
 const createCustomer = async function() {
     try {
+        const fullname = document.getElementById("name").value
+        const email = document.getElementById("email").value
+        const phone = document.getElementById("phone").value
+        
+        const newCustomer = {
+            name: "Martin",
+            email: "martin.a@mail.com",
+            phone: "+46735880188"
+        }
         const customerOpt = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(customerId)
+            body: JSON.stringify(newCustomer)
         }
 
     let response = await fetch("/create-customer", customerOpt)

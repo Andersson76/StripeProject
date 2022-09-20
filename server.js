@@ -72,12 +72,7 @@ app.post("/create-customer", async (req, res) => {
   console.log("är jag inne?")
   
   try {
-    const customer = await stripe.customers.create({
-      id: customer.id,
-      email: email,
-      name: name,
-      phone: phone,
-  });
+    const customer = await stripe.customers.create(req.body);
 
   console.log(customer)
   res.json(customer.id)
