@@ -72,7 +72,6 @@ function createListItem(itemData) {
     return item;
 }
 
-
 function showShoppingCart() {
     if (!isItemsViewVisible) { return; }
     isItemsViewVisible = false;
@@ -86,7 +85,22 @@ function showShoppingCart() {
     for (var index = 0; index < shoppingCart.length; index++) {
         list.appendChild(createShoppingCartItem(shoppingCart[index], index));
     }
+
     /* Create input fields */
+    const inputName = document.createElement("input");  
+    inputName.placeholder = "Ange fullständigt namn";
+    inputName.type = "text";  
+    inputName.classList.add("input-feild-name");
+
+    const inputEmail = document.createElement("input");  
+    inputEmail.placeholder = "Ange emailadress";
+    inputEmail.type = "text";  
+    inputEmail.classList.add("input-feild-email");
+
+    const inputPhone = document.createElement("input"); 
+    inputPhone.placeholder = "Ange telefonnummer"; 
+    inputPhone.type = "number";  
+    inputPhone.classList.add("input-feild-phone");
     
     /* Shopping info & action */
     var info = createShoppingSummary();
@@ -94,8 +108,11 @@ function showShoppingCart() {
     var content = document.createElement("div");
     content.appendChild(header);
     content.appendChild(list);
+    content.appendChild(inputName)
+    content.appendChild(inputEmail)
+    content.appendChild(inputPhone)
     content.appendChild(info);
-    content.appendChild()
+
 
     var container = document.querySelector("#main");
     container.replaceChild(content, container.firstChild);
@@ -148,11 +165,12 @@ function createShoppingSummary() {
 
     /* Proceed button */
     var proceedButton = document.createElement("button");
-
     proceedButton.innerHTML = '<i class="fa fa-check" aria-hidden="true"></i>' + "&nbsp;&nbsp;&nbsp;" + "Slutför ditt köp";
 
-
     proceedButton.onclick = async function () {
+
+
+        // Skapa funktion med inputfält som vi kallar på här och sedan redirecta till ny sida med inputfält med window.location.pathname = "..."? 
 
         try {
             const newCustomerId = await createCustomer()
@@ -169,7 +187,7 @@ function createShoppingSummary() {
             let sessionId = await response.json();
             console.log(sessionId)
             
-            const redirect = stripe.redirectToCheckout({sessionId}, /* createCustomer() */) // Få in customer id...
+            const redirect = stripe.redirectToCheckout({sessionId}) 
             console.log(redirect)
             
             
@@ -189,9 +207,10 @@ function createShoppingSummary() {
 
 const createCustomer = async function() {
     try {
-        const fullname = document.getElementById("name").value
+
+        /* const fullname = document.getElementById("name").value
         const email = document.getElementById("email").value
-        const phone = document.getElementById("phone").value
+        const phone = document.getElementById("phone").value */
         
         const newCustomer = {
             name: "Martin",
