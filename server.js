@@ -67,27 +67,36 @@ app.post("/create-payment-intent", async (req, res) => {
   });
 });
 
-//Line_items skall innehålla objekt av en produkt som skall köpas och quantity samt customerID,
-//JSon filen skall matcha line_items
-app.post("/create-customer", async (req, res) => {
-  try {
-    const createCustomer = await stripe.customers.create({
-      //"id": "cus_4QFK8XrieeBDYp",
-      "email": "",
-      "name": "",
-      "phone": "",
 
+app.post("/create-customer", async (req, res) => {
+  console.log("är jag inne?")
+  
+  try {
+    const customer = await stripe.customers.create({
+      id: customer.id,
+      email: email,
+      name: name,
+      phone: phone,
   });
-  res.json(createCustomer)
-   
+
+  console.log(customer)
+  res.json(customer.id)
+
   } catch (err) {
     console.error(err)
   }
 })
 
+
 app.post('/create-checkout-session', async (req, res) => {
   console.log("kommer jag in?")
+
   const session = await stripe.checkout.sessions.create({
+  
+    payment_method_types: ["card"], 
+    customer: req.body.customer,  
+
+    // Ska ej vara hårdkodat & fixa validering på email, telefon & namn
     line_items: [
       {
         quantity: 3,
@@ -138,9 +147,8 @@ app.post('/create-checkout-session', async (req, res) => {
         },
       },
     ],
-    //customer: ,
     mode: 'payment',
-    success_url: 'http://localhost:3000/success.html?session_id={CEHCKOUT_SESSION_ID}',
+    success_url: 'http://localhost:3000/success.html?session_id={CHECKOUT_SESSION_ID}',
     cancel_url: 'http://localhost:3000/cancel.html',
   });
 
@@ -150,7 +158,6 @@ console.log(session)
 });
 
 app.use((err, req, res, next) => {
-
     console.log(err.status)
     console.log(err.message)
     res.status(500).json(err)
