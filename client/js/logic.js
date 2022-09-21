@@ -177,7 +177,7 @@ function createInputField() {
      let inputEmail = document.createElement("input");
      inputEmail.placeholder = "Ange emailadress";
      inputEmail.type = "text";
-     //inputEmail.pattern = "@"
+     inputEmail.pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
      inputEmail.required = true
      inputEmail.classList.add("input-field-email");
 
@@ -198,7 +198,7 @@ function createInputField() {
      let inputPhone = document.createElement("input");
      inputPhone.placeholder = "Ange telefonnummer"; 
      inputPhone.type = "text";  
-     // inputPhone.pattern = "^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$"
+     inputPhone.pattern = "[0-9 +]+"
      inputPhone.required = true
      inputPhone.classList.add("input-field-phone");
 
