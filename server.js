@@ -119,7 +119,7 @@ app.post('/create-checkout-session', async (req, res) => {
   console.log("Items i requesten", items)
   const line_items = items.map(pryl => {
     return {
-      quantity: 1, // TODO: pryl.quantity
+      quantity: pryl.quantity,
       price_data: {
         currency: "sek",
         unit_amount: pryl.unit_amount * 100,

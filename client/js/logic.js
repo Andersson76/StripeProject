@@ -57,9 +57,19 @@ function createListItem(itemData) {
     var button = document.createElement("button");
     button.innerHTML = '<i class="fa fa-cart-arrow-down" aria-hidden="true"></i>' + "&nbsp;&nbsp;&nbsp;" + "Lägg till i kundvagnen";
     button.onclick = function () {
-        shoppingCart.push(itemData);
+        console.log(itemData);
+        const existingItem = shoppingCart.find(i => i.name === itemData.name);
+        if (existingItem) {
+            existingItem.quantity++
+        } else {
+            itemData.quantity = 1;
+            shoppingCart.push(itemData);
+        };
+        
         counter = document.querySelector("#counter");
-        counter.innerText = shoppingCart.length;
+        counter.innerText = shoppingCart.reduce((sum, item) =>{
+            return sum + item.quantity
+        },0);
     };
 
     var item = document.createElement("li");
@@ -114,15 +124,25 @@ function createShoppingCartItem(itemData, index) {
     var unit_amount = document.createElement("span");
     unit_amount.innerText = "" + itemData.unit_amount + " kr";
 
+    var quantity = document.createElement("quantity");
+    quantity.innerText = itemData.quantity
     /* Button */
     var button = document.createElement("button");
     button.innerHTML = '<i class="fa fa-trash-o" aria-hidden="true"></i>' + "&nbsp;&nbsp;&nbsp;" + "Ta bort";
     button.onclick = function () {
-        /* Remove the item from the array */
-        shoppingCart.splice(index, 1);
+        shoppingCart[index].quantity--
+        quantity.innerText = shoppingCart[index].quantity
+        if(shoppingCart[index].quantity < 1){
+            /* Remove the item from the array */
+            shoppingCart.splice(index, 1);
+        }
+     
+
         /* Update the counter */
         counter = document.querySelector("#counter");
-        counter.innerText = shoppingCart.length;
+        counter.innerText = shoppingCart.reduce((sum, item) =>{
+            return sum + item.quantity
+        },0);
         /* Update the UI list */
         isItemsViewVisible = true;
        showShoppingCart();
@@ -132,6 +152,7 @@ function createShoppingCartItem(itemData, index) {
     item.appendChild(image);
     item.appendChild(name);
     item.appendChild(unit_amount);
+    item.appendChild(quantity);
     item.appendChild(button);
 
     return item;
