@@ -89,7 +89,7 @@ app.post('/create-checkout-session', async (req, res) => {
   const session = await stripe.checkout.sessions.create({
   
     payment_method_types: ["card"], 
-    customer: req.body.customer,  
+    /* customer: req.body.customer, - createCustomer?  */  
 
     // Ska ej vara hårdkodat & fixa validering på email, telefon & namn
     line_items: [

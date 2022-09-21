@@ -149,40 +149,45 @@ function createInputField() {
      h1.classList.add("h1")
      h1.innerText = "Kunduppgifter"
 
-     /* const name = document.createElement("h3");
-     name.innerText = "Fullständigt namn" */
-
-     let inputName = document.createElement("input");
-     inputName.placeholder = "Ange fullständigt namn";
-     inputName.type = "text";  
-     inputName.classList.add("input-feild-name");
- 
-     /* const email = document.createElement("h3");
-     email.innerText = "Email Adress" */
+    let email = document.createElement("p");
+     email.innerText = "Email Adress"
 
      let inputEmail = document.createElement("input");
      inputEmail.placeholder = "Ange emailadress";
      inputEmail.type = "text";  
      inputEmail.classList.add("input-feild-email");
- 
 
-     /* const phone = document.createElement("h3");
-     phone.innerText = "Telefonnummer" */
+     let name = document.createElement("p");
+     name.innerText = "Fullständigt namn"
+
+     let inputName = document.createElement("input");
+     inputName.placeholder = "Ange fullständigt namn";
+     inputName.type = "text";  
+     inputName.classList.add("input-feild-name");
+
+     let phone = document.createElement("p");
+     phone.innerText = "Telefonnummer"
 
      let inputPhone = document.createElement("input");
      inputPhone.placeholder = "Ange telefonnummer"; 
      inputPhone.type = "number";  
      inputPhone.classList.add("input-feild-phone");
 
-
-    /* input.appendChild(name)
-    input.appendChild(email)
-    input.appendChild(phone) */
+     // Hämta kund
+    let getCustomerButton = document.createElement("button")
+    getCustomerButton.innerHTML = "Hämta kund"; 
+    getCustomerButton.onclick = function () {
+        alert("Hämta kund")
+    }
 
     input.appendChild(h1)
-    input.appendChild(inputName)
+    input.appendChild(email)
     input.appendChild(inputEmail)
-    input.appendChild(inputPhone)
+    input.appendChild(name)
+    input.appendChild(inputName)
+    input.appendChild(phone)
+    input.appendChild(inputPhone) 
+    input.appendChild(getCustomerButton)  
 
     return input
 
@@ -237,25 +242,26 @@ function createShoppingSummary() {
 }
 
 
-let name = "";
-let email = "";
-let phone = "";
-
-/* name: inputName.value,
-email: inputEmail.value,
-phone: inputPhone.value  */
-
-
 const createCustomer = async function() {
+
     try {
-        // Ta in värderna från inputfälten..
+
+        let inputName = document.getElementsByClassName("input-feild-name")[0].value
+        let inputEmail = document.getElementsByClassName("input-feild-email")[0].value
+        let inputPhone = document.getElementsByClassName("input-feild-phone")[0].value
+
         const newCustomer = {
-            name: "",
-            email: "",
-            phone: "",
-        }
+            name: inputName,
+            email: inputEmail,
+            phone: inputPhone,
+        }    
         console.log(newCustomer)
         
+        //ifstatement- customerExist - om man finns vill vi få ut id.. skickar in det i session.. - unik mejl 
+
+        // endpoint - get customer som tar en mail i body eller parametern, event-anrop skicka med mejlen om kunen finns får man ut kundobjekt annars undefind. 
+
+
         const customerOpt = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
