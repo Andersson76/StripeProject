@@ -68,18 +68,25 @@ app.post("/create-payment-intent", async (req, res) => {
 });
 
 // Endpoint tillhörande med funktion getCustomer
-app.get("/get-customer:email"), async (req, res) => {
-  console.log("kommer in i customer?")
+app.get("/get-customer/:email"), async (req, res) => {
   
   try {
     let email = req.params.email
     console.log(email)
+ 
+    if(!req.params.email) {
+      // skapa kund 
+    } else {
+      throw new Error("Emailadressen finns redan!");
+    }
+
     const customer = await stripe.customers.search({
       query: { "data": [ { "email": "" } ] },
     });
-    if(customer) {
+    
+   if(customer) {
       res.json(customer)
-    }
+    } 
     console.log(customer)
   
   } catch(err) {
@@ -100,6 +107,8 @@ app.post("/create-customer", async (req, res) => {
     console.error(err)
   }
 })
+
+
 
 
 // Endpoint tillhörande med funktionen createSession
