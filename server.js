@@ -126,7 +126,7 @@ app.post('/create-checkout-session', async (req, res) => {
         product_data: {
           name: pryl.name,
           description:  pryl.description,
-          // images: pryl.image
+          images: [pryl.image]
         }
       }
     }

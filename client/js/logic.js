@@ -47,7 +47,7 @@ function createListItem(itemData) {
 
     /* Image */
     var image = document.createElement("img");
-    image.src = "./assets/" + itemData.image;
+    image.src = itemData.image;
 
     /* Unit_amount */
     var unit_amount = document.createElement("span");
@@ -68,7 +68,7 @@ function createListItem(itemData) {
         
         counter = document.querySelector("#counter");
         counter.innerText = shoppingCart.reduce((sum, item) =>{
-            return sum + item.quantity
+            return sum + item.quantity 
         },0);
     };
 
@@ -114,7 +114,7 @@ function showShoppingCart() {
 function createShoppingCartItem(itemData, index) {
     /* Image */
     var image = document.createElement("img");
-    image.src = "./assets/" + itemData.image;
+    image.src = itemData.image;
 
     /* Name */
     var name = document.createElement("h3");
@@ -125,7 +125,7 @@ function createShoppingCartItem(itemData, index) {
     unit_amount.innerText = "" + itemData.unit_amount + " kr";
 
     var quantity = document.createElement("quantity");
-    quantity.innerText = itemData.quantity
+    quantity.innerText = "Quantity: " + itemData.quantity
     /* Button */
     var button = document.createElement("button");
     button.innerHTML = '<i class="fa fa-trash-o" aria-hidden="true"></i>' + "&nbsp;&nbsp;&nbsp;" + "Ta bort";
