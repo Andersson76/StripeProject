@@ -68,14 +68,18 @@ app.post("/create-payment-intent", async (req, res) => {
 });
 
 // Endpoint tillhörande med funktion getCustomer
-app.get("/get-customer"), async (req, res) => {
+app.get("/get-customer:email"), async (req, res) => {
   console.log("kommer in i customer?")
   
   try {
+    let email = req.params.email
+    console.log(email)
     const customer = await stripe.customers.search({
       query: { "data": [ { "email": "" } ] },
     });
-    res.json(customer)
+    if(customer) {
+      res.json(customer)
+    }
     console.log(customer)
   
   } catch(err) {

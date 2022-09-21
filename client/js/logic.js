@@ -179,9 +179,10 @@ function createInputField() {
      // Hämta kund
     let getCustomerButton = document.createElement("button")
     getCustomerButton.innerHTML = "Hämta kund"; 
-    getCustomerButton.onclick = function () {
-        getCustomer()
-    }
+    getCustomerButton.addEventListener("click", async () => {
+        let inputEmail = document.getElementsByClassName("input-feild-email")[0].value
+        let collectedCustomer = await getCustomer(inputEmail)
+    })
 
     input.appendChild(h1)
     input.appendChild(email)
@@ -250,17 +251,13 @@ const createSession = async function() {
 
 //Tillhör endpoint get
 const getCustomer = async function(email) {
-    try {
 
-    const response = await fetch("/get-customer")
+    try {
+    
+    const response = await fetch("http://localhost:3000/get-customer/" + email)
     console.log(response)
 
-    let inputEmail = document.getElementsByClassName("input-feild-email")[0].value
 
-    const checkCustomerEmail = {
-        email: inputEmail,
-    }    
-    console.log(checkCustomerEmail) 
    
      // ifsatas om email redan finns skicka till error annars skicka det till stripe? 
 
