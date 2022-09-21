@@ -23,4 +23,17 @@ function doValidate() {
    if (!validateEmail(document.appointment.requiredphone.value) || !validatePhone(document.appointment.requiredphone.value) ){
     alert("Invalid Email");
     return false;
-} */
+}
+
+
+if(input.name == ...) {
+return
+}
+if(input.email == ...) {
+return
+}
+if(input.phone == ...) {
+return
+}
+
+*/
