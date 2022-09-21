@@ -18,6 +18,11 @@ body {
 
 }
 
+.confirmation {
+    display: flex;
+    justify-content: center;
+}
+
 header {
     position: fixed;
     top: 0;

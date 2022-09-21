@@ -85,33 +85,16 @@ function showShoppingCart() {
     for (var index = 0; index < shoppingCart.length; index++) {
         list.appendChild(createShoppingCartItem(shoppingCart[index], index));
     }
-
-    /* Create input fields */
-    const inputName = document.createElement("input");  
-    inputName.placeholder = "Ange fullständigt namn";
-    inputName.type = "text";  
-    inputName.classList.add("input-feild-name");
-
-    const inputEmail = document.createElement("input");  
-    inputEmail.placeholder = "Ange emailadress";
-    inputEmail.type = "text";  
-    inputEmail.classList.add("input-feild-email");
-
-    const inputPhone = document.createElement("input"); 
-    inputPhone.placeholder = "Ange telefonnummer"; 
-    inputPhone.type = "number";  
-    inputPhone.classList.add("input-feild-phone");
     
     /* Shopping info & action */
     var info = createShoppingSummary();
+    let input = createInputField(); // Lagt till
 
     var content = document.createElement("div");
     content.appendChild(header);
     content.appendChild(list);
-    content.appendChild(inputName)
-    content.appendChild(inputEmail)
-    content.appendChild(inputPhone)
     content.appendChild(info);
+    content.appendChild(input) // Lagt till
 
 
     var container = document.querySelector("#main");
@@ -142,7 +125,7 @@ function createShoppingCartItem(itemData, index) {
         counter.innerText = shoppingCart.length;
         /* Update the UI list */
         isItemsViewVisible = true;
-        showShoppingCart();
+       showShoppingCart();
     };
 
     var item = document.createElement("li");
@@ -152,6 +135,57 @@ function createShoppingCartItem(itemData, index) {
     item.appendChild(button);
 
     return item;
+}
+
+
+
+/* Flytta detta? & fixa validering på email, telefon & namn*/
+function createInputField() {
+
+     /* Create input fields */
+     var input = document.createElement("div");
+
+     let h1 = document.createElement("h1")
+     h1.classList.add("h1")
+     h1.innerText = "Kunduppgifter"
+
+     /* const name = document.createElement("h3");
+     name.innerText = "Fullständigt namn" */
+
+     let inputName = document.createElement("input");
+     inputName.placeholder = "Ange fullständigt namn";
+     inputName.type = "text";  
+     inputName.classList.add("input-feild-name");
+ 
+     /* const email = document.createElement("h3");
+     email.innerText = "Email Adress" */
+
+     let inputEmail = document.createElement("input");
+     inputEmail.placeholder = "Ange emailadress";
+     inputEmail.type = "text";  
+     inputEmail.classList.add("input-feild-email");
+ 
+
+     /* const phone = document.createElement("h3");
+     phone.innerText = "Telefonnummer" */
+
+     let inputPhone = document.createElement("input");
+     inputPhone.placeholder = "Ange telefonnummer"; 
+     inputPhone.type = "number";  
+     inputPhone.classList.add("input-feild-phone");
+
+
+    /* input.appendChild(name)
+    input.appendChild(email)
+    input.appendChild(phone) */
+
+    input.appendChild(h1)
+    input.appendChild(inputName)
+    input.appendChild(inputEmail)
+    input.appendChild(inputPhone)
+
+    return input
+
 }
 
 function createShoppingSummary() {
@@ -165,16 +199,15 @@ function createShoppingSummary() {
 
     /* Proceed button */
     var proceedButton = document.createElement("button");
-    proceedButton.innerHTML = '<i class="fa fa-check" aria-hidden="true"></i>' + "&nbsp;&nbsp;&nbsp;" + "Slutför ditt köp";
+    proceedButton.innerHTML = '<i class="fa fa-check" aria-hidden="true"></i>' + "&nbsp;&nbsp;&nbsp;" + "Gå vidare";
 
     proceedButton.onclick = async function () {
 
+        /* window.location.pathname = "confirmation.html"} */
 
-        // Skapa funktion med inputfält som vi kallar på här och sedan redirecta till ny sida med inputfält med window.location.pathname = "..."? 
-
-        try {
+     try {
             const newCustomerId = await createCustomer()
-            console.log(newCustomerId)
+            console.log(newCustomerId) // Får ut customer id i consolen
 
             const reqOptions = {
                 method: 'POST',
@@ -185,13 +218,12 @@ function createShoppingSummary() {
             let response = await fetch("/create-checkout-session", reqOptions)
             
             let sessionId = await response.json();
-            console.log(sessionId)
+            console.log(sessionId) // Får ut session Id i consollen
             
             const redirect = stripe.redirectToCheckout({sessionId}) 
             console.log(redirect)
             
             
-
         } catch (err) {
             console.log(err)
         }
@@ -205,18 +237,25 @@ function createShoppingSummary() {
 }
 
 
+let name = "";
+let email = "";
+let phone = "";
+
+/* name: inputName.value,
+email: inputEmail.value,
+phone: inputPhone.value  */
+
+
 const createCustomer = async function() {
     try {
-
-        /* const fullname = document.getElementById("name").value
-        const email = document.getElementById("email").value
-        const phone = document.getElementById("phone").value */
-        
+        // Ta in värderna från inputfälten..
         const newCustomer = {
-            name: "Martin",
-            email: "martin.a@mail.com",
-            phone: "+46735880188"
+            name: "",
+            email: "",
+            phone: "",
         }
+        console.log(newCustomer)
+        
         const customerOpt = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -227,14 +266,14 @@ const createCustomer = async function() {
     console.log(response)
 
     let customerId = await response.json();
-    console.log(customerId)
+    console.log(customerId) // får ut customer id i consollen..
     return customerId
-
-    /* const redirectCustomer = stripe.redirectToCheckout({customerId}) // Få in customer id...
-    console.log(redirectCustomer) */
 
 }catch(err) {
     console.log(err)
 }
 }
+
+
+
 
