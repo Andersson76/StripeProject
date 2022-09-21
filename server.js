@@ -67,31 +67,23 @@ app.post("/create-payment-intent", async (req, res) => {
   });
 });
 
-  // endpoint - get customer som tar en mail i body eller parametern, event-anrop skicka med mejlen om kunen finns får man ut kundobjekt annars undefind. 
-
+// Endpoint tillhörande med funktion getCustomer
 app.get("/get-customer"), async (req, res) => {
-  console.log("check customer")
+  console.log("kommer in i customer?")
   
   try {
     const customer = await stripe.customers.search({
       query: { "data": [ { "email": "" } ] },
     });
-
-    console.log(customer)
     res.json(customer)
-
-    //ifstatement- customerExist - om man finns vill vi få ut id.. skickar in det i session.. - unik mejl 
-    
-
-        
-
-
+    console.log(customer)
+  
   } catch(err) {
     console.error(err)
   }
 }
 
-
+// Endpoit tillhörande med funktionen createCustomer
 app.post("/create-customer", async (req, res) => {
   console.log("är jag inne?")
   
@@ -106,13 +98,13 @@ app.post("/create-customer", async (req, res) => {
 })
 
 
+// Endpoint tillhörande med funktionen createSession
 app.post('/create-checkout-session', async (req, res) => {
   console.log("kommer jag in?")
 
   const session = await stripe.checkout.sessions.create({
-  
     payment_method_types: ["card"], 
-    customer: req.body.customer.id, 
+    /* customer: customer.id,  */
 
     // Ska ej vara hårdkodat & fixa validering på email, telefon & namn
     line_items: [

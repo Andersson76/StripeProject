@@ -180,7 +180,7 @@ function createInputField() {
     let getCustomerButton = document.createElement("button")
     getCustomerButton.innerHTML = "Hämta kund"; 
     getCustomerButton.onclick = function () {
-        alert("Hämta kund")
+        getCustomer()
     }
 
     input.appendChild(h1)
@@ -210,32 +210,8 @@ function createShoppingSummary() {
     proceedButton.innerHTML = '<i class="fa fa-check" aria-hidden="true"></i>' + "&nbsp;&nbsp;&nbsp;" + "Gå vidare";
 
     proceedButton.onclick = async function () {
-
-        /* window.location.pathname = "confirmation.html"} */
-
-     try {
-            const newCustomerId = await createCustomer()
-            console.log(newCustomerId) // Får ut customer id i consolen
-
-            const reqOptions = {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(shoppingCart, newCustomerId)
-            }
-            
-            let response = await fetch("/create-checkout-session", reqOptions)
-            
-            let sessionId = await response.json();
-            console.log(sessionId) // Får ut session Id i consollen
-            
-            const redirect = stripe.redirectToCheckout({sessionId}) 
-            console.log(redirect)
-            
-            
-        } catch (err) {
-            console.log(err)
-        }
-    };
+        createSession()
+    }
 
     var info = document.createElement("div");
     info.appendChild(priceLabel);
@@ -245,29 +221,52 @@ function createShoppingSummary() {
 }
 
 
-const checkCustomer = async function() {
+// Tillhör endpoit createSession
+const createSession = async function() {
+
+    try {
+        const newCustomerId = await createCustomer()
+        console.log(newCustomerId) // Får ut customer id i consolen
+
+        const reqOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(shoppingCart, newCustomerId)
+        }
+        
+        let response = await fetch("/create-checkout-session", reqOptions)
+        
+        let sessionId = await response.json();
+        console.log(sessionId) // Får ut session Id i consollen
+        
+        const redirect = stripe.redirectToCheckout({sessionId}) 
+        console.log(redirect)
+
+    }catch(err){
+        console.error(err)
+    }
+
+}
+
+//Tillhör endpoint get
+const getCustomer = async function(email) {
     try {
 
-    // kolla om email finns? 
+    const response = await fetch("/get-customer")
+    console.log(response)
+
     let inputEmail = document.getElementsByClassName("input-feild-email")[0].value
 
     const checkCustomerEmail = {
         email: inputEmail,
     }    
-    console.log(checkCustomerEmail)
+    console.log(checkCustomerEmail) 
+   
+     // ifsatas om email redan finns skicka till error annars skicka det till stripe? 
 
-    const customerCheck = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(checkCustomerEmail)
-    }
-
-    let response = await fetch("/get-customer", customerCheck)
-    console.log(response)
-
-   /*  let = await response.json();
-    console.log() 
-    return  */
+   /*  let customerEmail = await response.json();
+    console.log(customerEmail) 
+   return customerEmail  */
 
     } catch(err) {
         console.log(err)
@@ -275,10 +274,11 @@ const checkCustomer = async function() {
 }
 
 
-
-const createCustomer = async function() {
+//Hör till post createCustomer
+const createCustomer = async function(email, name, phone) {
 
     try {
+         // utmantningen av datan ska ske innan och skickas med i funktionerna
         let inputName = document.getElementsByClassName("input-feild-name")[0].value
         let inputEmail = document.getElementsByClassName("input-feild-email")[0].value
         let inputPhone = document.getElementsByClassName("input-feild-phone")[0].value
