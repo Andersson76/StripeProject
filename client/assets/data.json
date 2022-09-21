@@ -2,23 +2,23 @@
     {
         "name": "iPhone X",
         "description": "Latest and gratest smartphone from Apple.",
-        "image": "iPhonex.png",
+        "image": "https://cf4.certideal.com/19870-thickbox_default/iphone-x-64-gb-rymdgra.jpg",
         "unit_amount": 11495
         
     },{
         "name": "One Plus 5",
         "description": "Sleek and powerful smartphone from One Plus",
-        "image": "OnePlus5.png",
+        "image": "https://files.refurbed.com/ii/128-gb-schwarz-1562747793.jpg",
         "unit_amount": 4995
     },{
         "name": "Galaxy S8",
         "description": "Latest edge to edge smartphone from Samsung.",
-        "image": "SamsungS8.png",
+        "image": "https://d1eh9yux7w8iql.cloudfront.net/product_images/27320_9739693b-f100-472a-8621-96033e53b8d8.jpg",
         "unit_amount": 7990
     },{
         "name": "LG V30",
         "description": "Super nice and beautiful smartphone from LG.",
-        "image": "LGV30.png",
+        "image": "https://teknikhallen.se/cache/e8/1000x1000-Sargons%20Bilder_TPU%20Skal_LG%20V30%20TPU%20skal%2001.jpg",
         "unit_amount": 7495
     }
 ]
