@@ -262,7 +262,7 @@ const checkCustomer = async function() {
         body: JSON.stringify(checkCustomerEmail)
     }
 
-    let response = await fetch("/check-customer", customerCheck)
+    let response = await fetch("/get-customer", customerCheck)
     console.log(response)
 
    /*  let = await response.json();
