@@ -156,7 +156,7 @@ function createInputField() {
      let inputEmail = document.createElement("input");
      inputEmail.placeholder = "Ange emailadress";
      inputEmail.type = "text";  
-     inputEmail.classList.add("input-feild-email");
+     inputEmail.classList.add("input-field-email");
 
      let name = document.createElement("p");
      name.innerText = "Fullständigt namn"
@@ -165,7 +165,7 @@ function createInputField() {
      let inputName = document.createElement("input");
      inputName.placeholder = "Ange fullständigt namn";
      inputName.type = "text";  
-     inputName.classList.add("input-feild-name");
+     inputName.classList.add("input-field-name");
 
      let phone = document.createElement("p");
      phone.innerText = "Telefonnummer"
@@ -174,14 +174,15 @@ function createInputField() {
      let inputPhone = document.createElement("input");
      inputPhone.placeholder = "Ange telefonnummer"; 
      inputPhone.type = "number";  
-     inputPhone.classList.add("input-feild-phone");
+     inputPhone.classList.add("input-field-phone");
 
      // Hämta kund
     let getCustomerButton = document.createElement("button")
     getCustomerButton.innerHTML = "Hämta kund"; 
     getCustomerButton.addEventListener("click", async () => {
-        let inputEmail = document.getElementsByClassName("input-feild-email")[0].value
+        let inputEmail = document.getElementsByClassName("input-field-email")[0].value
         let collectedCustomer = await getCustomer(inputEmail)
+        console.log(collectedCustomer)
     })
 
     input.appendChild(h1)
@@ -257,8 +258,6 @@ const getCustomer = async function(email) {
     const response = await fetch("http://localhost:3000/get-customer/" + email)
     console.log(response)
 
-
-   
      // ifsatas om email redan finns skicka till error annars skicka det till stripe? 
 
    /*  let customerEmail = await response.json();
@@ -275,10 +274,10 @@ const getCustomer = async function(email) {
 const createCustomer = async function(email, name, phone) {
 
     try {
-         // utmantningen av datan ska ske innan och skickas med i funktionerna
-        let inputName = document.getElementsByClassName("input-feild-name")[0].value
-        let inputEmail = document.getElementsByClassName("input-feild-email")[0].value
-        let inputPhone = document.getElementsByClassName("input-feild-phone")[0].value
+         // utmantningen av datan ska ske innan och skickas med i funktionerna // Flytta ut 
+        let inputName = document.getElementsByClassName("input-field-name")[0].value
+        let inputEmail = document.getElementsByClassName("input-field-email")[0].value
+        let inputPhone = document.getElementsByClassName("input-field-phone")[0].value
 
         const newCustomer = {
             name: inputName,
