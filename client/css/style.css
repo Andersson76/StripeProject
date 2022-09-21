@@ -16,6 +16,9 @@ body {
     background: white;
     box-sizing: border-box;
 }
+input:invalid {
+  border:  1px solid red;
+}
 
 .confirmation {
     display: flex;

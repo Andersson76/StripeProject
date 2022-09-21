@@ -113,63 +113,30 @@ app.post("/create-customer", async (req, res) => {
 
 // Endpoint tillhörande med funktionen createSession
 app.post('/create-checkout-session', async (req, res) => {
-  console.log("kommer jag in?")
+  const items  = req.body;
 
+  console.log("kommer jag in?")
+  console.log("Items i requesten", items)
+  const line_items = items.map(pryl => {
+    return {
+      quantity: pryl.quantity,
+      price_data: {
+        currency: "sek",
+        unit_amount: pryl.unit_amount * 100,
+        product_data: {
+          name: pryl.name,
+          description:  pryl.description,
+          // images: pryl.image
+        }
+      }
+    }
+  })
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"], 
     /* customer: customer.id,  */
 
     // Ska ej vara hårdkodat & fixa validering på email, telefon & namn
-    line_items: [
-      {
-        quantity: 3,
-        price_data: {
-          currency: "sek",
-          product_data: {
-            description: "Latest and gratest smartphone from Apple.",
-            name: "iPhone X",
-            //images: "iPhonex.png"
-          },
-          unit_amount: 1149500
-        }
-      },
-      {
-        quantity: 1,
-        price_data: {
-          currency: "sek",
-          product_data: {
-            description: "Sleek and powerful smartphone from One Plus",
-            name: "One Plus 5",
-            //images: "OnePlus5.png"
-          },
-          unit_amount: 499500
-        }
-      },
-      {
-        quantity: 1,
-        price_data: {
-          currency: "sek",
-          product_data: {
-            description: "Latest edge to edge smartphone from Samsung.",
-            name: "Galaxy S8",
-            //images: "SamsungS8.png"
-          },
-          unit_amount: 799000
-        }
-      },
-      {
-        quantity: 2,
-        price_data: {
-          currency: "sek",
-          product_data: {
-            description: "Super nice and beautiful smartphone from LG.",
-            name: "LG V30",
-            //images: "LGV30.png"
-          },
-          unit_amount: 749500
-        },
-      },
-    ],
+    line_items,
     mode: 'payment',
     success_url: 'http://localhost:3000/success.html?session_id={CHECKOUT_SESSION_ID}',
     cancel_url: 'http://localhost:3000/cancel.html',
