@@ -67,15 +67,38 @@ app.post("/create-payment-intent", async (req, res) => {
   });
 });
 
+  // endpoint - get customer som tar en mail i body eller parametern, event-anrop skicka med mejlen om kunen finns får man ut kundobjekt annars undefind. 
+
+app.post("/check-customer"), async (req, res) => {
+  console.log("check customer")
+  
+  try {
+    /* const customer = await stripe.customers.create(req.body); 
+    console.log(customer)
+    res.json(customer)
+     */
+    //ifstatement- customerExist - om man finns vill vi få ut id.. skickar in det i session.. - unik mejl 
+    
+    // if exist...
+ /*    const customerExists = customer.find(customer => customer.email == req.body.email)
+        
+    if(customerExists) {
+        throw new Error("Email already exists")
+    } */
+
+  } catch(err) {
+    console.error(err)
+  }
+}
+
 
 app.post("/create-customer", async (req, res) => {
   console.log("är jag inne?")
   
   try {
     const customer = await stripe.customers.create(req.body);
-
-  console.log(customer)
-  res.json(customer.id)
+    console.log(customer)
+    res.json(customer.id)
 
   } catch (err) {
     console.error(err)
@@ -89,7 +112,7 @@ app.post('/create-checkout-session', async (req, res) => {
   const session = await stripe.checkout.sessions.create({
   
     payment_method_types: ["card"], 
-    /* customer: req.body.customer, - createCustomer?  */  
+    /* customer: req.body.customer, - createCustomer? - skicka in allt från customer?? */  
 
     // Ska ej vara hårdkodat & fixa validering på email, telefon & namn
     line_items: [

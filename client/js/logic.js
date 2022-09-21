@@ -151,6 +151,7 @@ function createInputField() {
 
     let email = document.createElement("p");
      email.innerText = "Email Adress"
+     email.classList.add("email");
 
      let inputEmail = document.createElement("input");
      inputEmail.placeholder = "Ange emailadress";
@@ -159,6 +160,7 @@ function createInputField() {
 
      let name = document.createElement("p");
      name.innerText = "Fullständigt namn"
+     name.classList.add("name");
 
      let inputName = document.createElement("input");
      inputName.placeholder = "Ange fullständigt namn";
@@ -167,6 +169,7 @@ function createInputField() {
 
      let phone = document.createElement("p");
      phone.innerText = "Telefonnummer"
+     phone.classList.add("phone");
 
      let inputPhone = document.createElement("input");
      inputPhone.placeholder = "Ange telefonnummer"; 
@@ -242,10 +245,40 @@ function createShoppingSummary() {
 }
 
 
+const checkCustomer = async function() {
+    try {
+
+    // kolla om email finns? 
+    let inputEmail = document.getElementsByClassName("input-feild-email")[0].value
+
+    const checkCustomerEmail = {
+        email: inputEmail,
+    }    
+    console.log(checkCustomerEmail)
+
+    const customerCheck = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(checkCustomerEmail)
+    }
+
+    let response = await fetch("/check-customer", customerCheck)
+    console.log(response)
+
+   /*  let = await response.json();
+    console.log() 
+    return  */
+
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+
+
 const createCustomer = async function() {
 
     try {
-
         let inputName = document.getElementsByClassName("input-feild-name")[0].value
         let inputEmail = document.getElementsByClassName("input-feild-email")[0].value
         let inputPhone = document.getElementsByClassName("input-feild-phone")[0].value
@@ -256,11 +289,6 @@ const createCustomer = async function() {
             phone: inputPhone,
         }    
         console.log(newCustomer)
-        
-        //ifstatement- customerExist - om man finns vill vi få ut id.. skickar in det i session.. - unik mejl 
-
-        // endpoint - get customer som tar en mail i body eller parametern, event-anrop skicka med mejlen om kunen finns får man ut kundobjekt annars undefind. 
-
 
         const customerOpt = {
             method: 'POST',
