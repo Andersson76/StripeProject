@@ -155,7 +155,9 @@ function createInputField() {
 
      let inputEmail = document.createElement("input");
      inputEmail.placeholder = "Ange emailadress";
-     inputEmail.type = "text";  
+     inputEmail.type = "text";
+     //inputEmail.pattern = "@"
+     inputEmail.required = true
      inputEmail.classList.add("input-field-email");
 
      let name = document.createElement("p");
@@ -165,6 +167,7 @@ function createInputField() {
      let inputName = document.createElement("input");
      inputName.placeholder = "Ange fullständigt namn";
      inputName.type = "text";  
+     inputName.required = true
      inputName.classList.add("input-field-name");
 
      let phone = document.createElement("p");
@@ -173,7 +176,9 @@ function createInputField() {
 
      let inputPhone = document.createElement("input");
      inputPhone.placeholder = "Ange telefonnummer"; 
-     inputPhone.type = "number";  
+     inputPhone.type = "text";  
+     // inputPhone.pattern = "^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$"
+     inputPhone.required = true
      inputPhone.classList.add("input-field-phone");
 
      // Hämta kund
@@ -228,7 +233,7 @@ const createSession = async function() {
 
     try {
         const newCustomerId = await createCustomer()
-        console.log(newCustomerId) // Får ut customer id i consolen
+        console.log("Kund skapad, skapar checkout session nu", newCustomerId) // Får ut customer id i consolen
 
         const reqOptions = {
             method: 'POST',
