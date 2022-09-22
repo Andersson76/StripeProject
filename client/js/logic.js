@@ -283,15 +283,16 @@ function createInputField() {
 const getCustomer = async function(email) {
 
     try {
-    
-    const response = await fetch("http://localhost:3000/get-customer/" + email)
+    console.log(email)
+    const response = await fetch("http://localhost:3000/getCustomer/" + email)
     console.log(response)
 
-   /*  let data = await response.json();
+   let data = await response.json();
     console.log(data) 
-   return data  */
+   return data  
 
-   // Felmeddelande - logic.js:284 404 (Not Found)
+   // Fokusera först här. om svaret är customer.id så ska vi inte skapa kund utan skicka kund.id med på ordern..
+    // om kunden inte finns kalla på creareCustomer () & ta fram de andra inputfälten 
 
     } catch(err) {
         console.log(err)
@@ -326,6 +327,7 @@ const createCustomer = async function(name, email, phone) {
     let customerId = await response.json();
     console.log(customerId) // får ut customer id i consollen..
     return customerId
+
 
 }catch(err) {
     console.log(err)

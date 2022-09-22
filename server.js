@@ -68,41 +68,38 @@ app.post("/create-payment-intent", async (req, res) => {
 });
 
 
-app.get("/get-customer/:email"), async (req, res) => {
-  
+app.get("/getCustomer/:email", async (req, res) => {
+  console.log("kommer vi inn nu?")
   try {
-
     // Checks existing email in stripe
-/*     const checkExisitingUser = await stripe.customers.search({
-      query: email: \'${req.body.email}\',
-  }); */
+    const checkExisitingEmail = await stripe.customers.search({
+      query: `email: \'${req.params.email}\'`,
+  });
+  console.log(checkExisitingEmail)
 
-    const customer = await stripe.customers.search({
-      query: { "data": [ { "email": email } ] },
+  res.json("kommer vi in")
 
-    });
-
-    let email = req.params.email
-    console.log(email)
-
-    if(!req.params.email) { 
-      /* // skapa kund 
-      const customer = await stripe.customers.create(req.body);
+   if(!req.params.email) { 
+      const customer = await stripe.customers.create(req.params.email) //skicka in objekt kolla stripe dokumentationen. Ska matcha..
       console.log(customer)
-      res.json(customer.id) */
-  } else {
-    throw new Error("Emailadressen finns redan!");
+      res.json(customer.id)
+  
+      //Om kunden finns behövs ej namn och telefonnummer om kunden finns skicka med customer.id
+
+    } else {
+      throw new Error("Emailadressen finns redan!");
   }
     
-   if(customer) {
+  // Om kunden existerar skicka med customer.id - annars finns redan
+  /* if(customer) {
       res.json(customer)
     } 
-    console.log(customer)
+    console.log(customer)  */
   
   } catch(err) {
     console.error(err)
   }
-}
+})
 
 
 app.post("/create-customer", async (req, res) => {
