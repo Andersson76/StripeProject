@@ -294,6 +294,7 @@ const getCustomer = async function(email) {
    // Fokusera först här. om svaret är customer.id så ska vi inte skapa kund utan skicka kund.id med på ordern..
     // om kunden inte finns kalla på creareCustomer () & ta fram de andra inputfälten 
 
+    console.log(email)
     } catch(err) {
         console.log(err)
     }
