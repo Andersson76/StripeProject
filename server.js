@@ -67,22 +67,32 @@ app.post("/create-payment-intent", async (req, res) => {
   });
 });
 
-// Endpoint tillhörande med funktion getCustomer
+
 app.get("/get-customer/:email"), async (req, res) => {
   
   try {
-    let email = req.params.email
-    console.log(email)
- 
-    if(!req.params.email) {
-      // skapa kund 
-    } else {
-      throw new Error("Emailadressen finns redan!");
-    }
+
+    // Checks existing email in stripe
+/*     const checkExisitingUser = await stripe.customers.search({
+      query: email: \'${req.body.email}\',
+  }); */
 
     const customer = await stripe.customers.search({
-      query: { "data": [ { "email": "" } ] },
+      query: { "data": [ { "email": email } ] },
+
     });
+
+    let email = req.params.email
+    console.log(email)
+
+    if(!req.params.email) { 
+      /* // skapa kund 
+      const customer = await stripe.customers.create(req.body);
+      console.log(customer)
+      res.json(customer.id) */
+  } else {
+    throw new Error("Emailadressen finns redan!");
+  }
     
    if(customer) {
       res.json(customer)
@@ -94,7 +104,7 @@ app.get("/get-customer/:email"), async (req, res) => {
   }
 }
 
-// Endpoit tillhörande med funktionen createCustomer
+
 app.post("/create-customer", async (req, res) => {
   console.log("är jag inne?")
   
@@ -109,9 +119,6 @@ app.post("/create-customer", async (req, res) => {
 })
 
 
-
-
-// Endpoint tillhörande med funktionen createSession
 app.post('/create-checkout-session', async (req, res) => {
   const items  = req.body;
 
@@ -133,9 +140,8 @@ app.post('/create-checkout-session', async (req, res) => {
   })
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"], 
-    /* customer: customer.id,  */
+    /* customer: customer.id, */  
 
-    // Ska ej vara hårdkodat & fixa validering på email, telefon & namn
     line_items,
     mode: 'payment',
     success_url: 'http://localhost:3000/success.html?session_id={CHECKOUT_SESSION_ID}',
