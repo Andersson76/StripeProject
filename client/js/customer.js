@@ -1,5 +1,4 @@
 /* import { } from './logic.js';
-let shopping = ();  */
 
 var input = document.querySelector("#main");
 let createCustomerInfo = createInputField()
@@ -38,3 +37,6 @@ export function createInputField() {
 
 }
 
+export default createCustomerField()
+
+*/

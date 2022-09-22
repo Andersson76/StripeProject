@@ -5,6 +5,10 @@ body {
     padding-top: 80px;
 }
 
+/* .success{
+
+} */
+
 .input-field-name, .input-field-email, .input-field-phone {
     border-radius: 6px;
     margin-bottom: 16px;
