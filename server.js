@@ -69,7 +69,7 @@ app.post("/create-payment-intent", async (req, res) => {
 
 
 app.get("/getCustomer/:email", async (req, res) => {
-  console.log("kommer vi inn nu?")
+
   try {
     // Checks existing email in stripe
     const checkExisitingEmail = await stripe.customers.search({
@@ -77,41 +77,43 @@ app.get("/getCustomer/:email", async (req, res) => {
   });
   console.log(checkExisitingEmail)
 
-  res.json("kommer vi in")
-
-   if(!req.params.email) { 
-      const customer = await stripe.customers.create(req.params.email) //skicka in objekt kolla stripe dokumentationen. Ska matcha..
-      console.log(customer)
-      res.json(customer.id)
-  
-      //Om kunden finns behövs ej namn och telefonnummer om kunden finns skicka med customer.id
-
-    } else {
-      throw new Error("Emailadressen finns redan!");
+  if(!checkExisitingEmail) {
+    const customer = await stripe.customers.create({ 
+      email: req.body.email,
+      name: req.body.name,
+      phone: req.body.phone,
+     }) 
+     
+     console.log(customer)
+     res.json(customer) 
   }
-    
-  // Om kunden existerar skicka med customer.id - annars finns redan
-  /* if(customer) {
-      res.json(customer)
-    } 
-    console.log(customer)  */
+  else {
+    res.json("Emailadressen finns redan!")
+    throw new Error("Emailadressen finns redan!"); 
+  }
+      //Om kunden finns behövs ej namn och telefonnummer 
+      //Om kunden existerar skicka med customer.id - annars finns redan
   
   } catch(err) {
     console.error(err)
+    res.status(400).json(err)
   }
 })
 
 
 app.post("/create-customer", async (req, res) => {
-  console.log("är jag inne?")
   
   try {
+
+    // Ska samma logik ligga här som i getCustomer för att checka om email finns annars skapa ny kund???
+
     const customer = await stripe.customers.create(req.body);
     console.log(customer)
-    res.json(customer.id)
+    res.json(customer.id) 
 
   } catch (err) {
     console.error(err)
+    res.status(400).json(err)
   }
 })
 

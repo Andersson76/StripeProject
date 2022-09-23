@@ -192,7 +192,7 @@ const createSession = async function() {
 
     try {
         const newCustomerId = await createCustomer()
-        console.log("Kund skapad, skapar checkout session nu", newCustomerId) // Undefined 22/9 Får ut customer id i consolen
+        console.log("Kund skapad, skapar checkout session nu", newCustomerId) 
 
         const reqOptions = {
             method: 'POST',
@@ -215,7 +215,6 @@ const createSession = async function() {
 }
 
 
-// SKALL FLYTTAS TILL CUSTOMER - FÅR EJ IMPORT/EXPORT ATT FUNKA
 function createInputField() {
 
     /* Create input fields */
@@ -230,6 +229,7 @@ function createInputField() {
     email.classList.add("email");
 
     let inputEmail = document.createElement("input");
+    inputEmail.setAttribute("type", "hidden");
     inputEmail.placeholder = "Ange emailadress";
     inputEmail.type = "text";
     inputEmail.pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
@@ -241,6 +241,7 @@ function createInputField() {
     name.classList.add("name");
 
     let inputName = document.createElement("input");
+    inputName.setAttribute("type", "hidden");
     inputName.placeholder = "Ange fullständigt namn";
     inputName.type = "text";  
     inputName.required = true
@@ -251,13 +252,13 @@ function createInputField() {
     phone.classList.add("phone");
 
     let inputPhone = document.createElement("input");
+    inputPhone.setAttribute("type", "hidden");
     inputPhone.placeholder = "Ange telefonnummer"; 
     inputPhone.type = "text";  
     inputPhone.pattern = "[0-9 +]+"
     inputPhone.required = true
     inputPhone.classList.add("input-field-phone");
 
-    // Hämta kund
    let getCustomerButton = document.createElement("button")
    getCustomerButton.innerHTML = "Hämta kund"; 
    getCustomerButton.addEventListener("click", async () => {
@@ -265,6 +266,14 @@ function createInputField() {
        let collectedCustomer = await getCustomer(inputEmail)
        console.log(collectedCustomer)
    })
+
+   let registerButton = document.createElement("button")
+   registerButton.innerHTML = "Registrera kund"; 
+   registerButton.addEventListener("click", async () => {
+        /* createCustomer() */
+        getCustomer()
+   })
+
 
    input.appendChild(h1)
    input.appendChild(email)
@@ -274,6 +283,7 @@ function createInputField() {
    input.appendChild(phone)
    input.appendChild(inputPhone) 
    input.appendChild(getCustomerButton)  
+   input.appendChild(registerButton)
 
    return input
 
@@ -288,26 +298,23 @@ const getCustomer = async function(email) {
     console.log(response)
 
    let data = await response.json();
-    console.log(data) 
+   console.log(data) 
    return data  
 
-   // Fokusera först här. om svaret är customer.id så ska vi inte skapa kund utan skicka kund.id med på ordern..
-    // om kunden inte finns kalla på creareCustomer () & ta fram de andra inputfälten 
+   // om kunden inte finns kalla på creareCustomer () & ta fram de andra inputfälten 
 
-    console.log(email)
     } catch(err) {
         console.log(err)
     }
 }
 
 
-const createCustomer = async function(name, email, phone) {
+const createCustomer = async function() {
 
-     //Flytta ut -när jag flyttar ut får jag "Cannot read properties of undefined (reading 'value')""
     let inputName = document.getElementsByClassName("input-field-name")[0].value
     let inputEmail = document.getElementsByClassName("input-field-email")[0].value
     let inputPhone = document.getElementsByClassName("input-field-phone")[0].value
-
+      
     try {
         const newCustomer = {
             name: inputName,
@@ -322,7 +329,7 @@ const createCustomer = async function(name, email, phone) {
             body: JSON.stringify(newCustomer)
         }
 
-    let response = await fetch("/create-customer", customerOpt)
+    let response = await fetch("/create-customer", customerOpt) 
     console.log(response)
 
     let customerId = await response.json();
