@@ -175,7 +175,7 @@ function createShoppingSummary() {
 
     proceedButton.onclick = async function () {
         createSession()
-        createCustomer()
+        createCustomer() // Ska vara skapa och hämta kund här? 
     }
 
     let input = createInputField();
@@ -191,7 +191,7 @@ function createShoppingSummary() {
 const createSession = async function() {
 
     try {
-        const newCustomerId = await createCustomer()
+        const newCustomerId = await createCustomer() 
         console.log("Kund skapad, skapar checkout session nu", newCustomerId) 
 
         const reqOptions = {
@@ -263,17 +263,21 @@ function createInputField() {
    getCustomerButton.innerHTML = "Hämta kund"; 
    getCustomerButton.addEventListener("click", async () => {
        let inputEmail = document.getElementsByClassName("input-field-email")[0].value
-       let collectedCustomer = await getCustomer(inputEmail)
-       console.log(collectedCustomer)
+
+       let collectedCustomer = await getCustomer(inputEmail) // skicka med variablen creatsession?
+       console.log(collectedCustomer) 
    })
 
-   let registerButton = document.createElement("button")
+ let registerButton = document.createElement("button")
    registerButton.innerHTML = "Registrera kund"; 
    registerButton.addEventListener("click", async () => {
-        /* createCustomer() */
-        getCustomer()
+    let inputEmail = document.getElementsByClassName("input-field-email")[0].value
+        let inputName = document.getElementsByClassName("input-field-name")[0].value 
+        let inputPhone = document.getElementsByClassName("input-field-phone")[0].value
+   
+        let registerCustomer = await createCustomer(inputEmail, inputName, inputPhone) // skicka med variablen creatsession?
+        console.log(registerCustomer) // = customer.id i konsolen
    })
-
 
    input.appendChild(h1)
    input.appendChild(email)
@@ -290,18 +294,16 @@ function createInputField() {
 }
 
 
-const getCustomer = async function(email) {
+const getCustomer = async function(email) { // hämtar kund - email
 
     try {
-    console.log(email)
-    const response = await fetch("http://localhost:3000/getCustomer/" + email)
-    console.log(response)
+        console.log(email)
+        const response = await fetch("http://localhost:3000/getCustomer/" + email)
+        console.log(response)
 
-   let data = await response.json();
-   console.log(data) 
-   return data  
-
-   // om kunden inte finns kalla på creareCustomer () & ta fram de andra inputfälten 
+        let data = await response.json();
+        console.log(data) 
+        return data  
 
     } catch(err) {
         console.log(err)
@@ -309,19 +311,15 @@ const getCustomer = async function(email) {
 }
 
 
-const createCustomer = async function() {
-
-    let inputName = document.getElementsByClassName("input-field-name")[0].value
-    let inputEmail = document.getElementsByClassName("input-field-email")[0].value
-    let inputPhone = document.getElementsByClassName("input-field-phone")[0].value
+const createCustomer = async function(email, name, phone) {
       
     try {
-        const newCustomer = {
-            name: inputName,
-            email: inputEmail,
-            phone: inputPhone,
+        let newCustomer = {
+            email,
+            name,
+            phone,
         }    
-        console.log(newCustomer)
+        console.log(newCustomer)  
 
         const customerOpt = {
             method: 'POST',
@@ -329,17 +327,14 @@ const createCustomer = async function() {
             body: JSON.stringify(newCustomer)
         }
 
-    let response = await fetch("/create-customer", customerOpt) 
-    console.log(response)
+        let response = await fetch("/create-customer", customerOpt) 
+        console.log(response) 
 
-    let customerId = await response.json();
-    console.log(customerId) // får ut customer id i consollen..
-    return customerId
+        let customerId = await response.json();
+        console.log(customerId) // customer id i consollen..
+        return customerId
 
-
-}catch(err) {
-    console.log(err)
+    }catch(err) {
+        console.log(err)
+    }
 }
-}
-
-

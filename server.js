@@ -50,7 +50,6 @@ app.post("/create-payment-intent", async (req, res) => {
   const { items } = req.body;
   const customer = await stripe.customers.create();
 
-
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
     customer: customer.id,
@@ -68,6 +67,7 @@ app.post("/create-payment-intent", async (req, res) => {
 });
 
 
+
 app.get("/getCustomer/:email", async (req, res) => {
 
   try {
@@ -77,23 +77,18 @@ app.get("/getCustomer/:email", async (req, res) => {
   });
   console.log(checkExisitingEmail)
 
+  // Om email redan finns så får vi ut samma customer id
+  // Om email inte finns är det tomt och då måste vi skapa den. Fortsätt med kollen i create customer
   if(!checkExisitingEmail) {
-    const customer = await stripe.customers.create({ 
-      email: req.body.email,
-      name: req.body.name,
-      phone: req.body.phone,
-     }) 
-     
-     console.log(customer)
-     res.json(customer) 
-  }
-  else {
-    res.json("Emailadressen finns redan!")
-    throw new Error("Emailadressen finns redan!"); 
-  }
-      //Om kunden finns behövs ej namn och telefonnummer 
-      //Om kunden existerar skicka med customer.id - annars finns redan
-  
+    res.json("Kunden finns inte!") 
+   console.log("Kunden finns inte")
+   /*
+  } else {
+    res.json("Kunden finns inte")
+    throw new Error("Kunden finns inte")
+  } */
+}
+
   } catch(err) {
     console.error(err)
     res.status(400).json(err)
@@ -105,17 +100,50 @@ app.post("/create-customer", async (req, res) => {
   
   try {
 
-    // Ska samma logik ligga här som i getCustomer för att checka om email finns annars skapa ny kund???
+    let email = req.body.email
+    let name = req.body.name
+    let phone = req.body.phone
 
-    const customer = await stripe.customers.create(req.body);
-    console.log(customer)
-    res.json(customer.id) 
+    // Lägg till kontroll om kunden finns annars ska vi skapa den, på samma sätt som search???
+  
+    const customer = await stripe.customers.create({
+      email, name, phone
+    });
+      console.log(customer) 
+      res.json(customer.id)
 
   } catch (err) {
     console.error(err)
     res.status(400).json(err)
   }
 })
+
+  /*  const customer = await stripe.customers.create(req.body)   
+     console.log(customer) 
+ */
+
+// Check user i create user 
+
+// ALT 1
+       // Checks existing email in stripe
+  /*      const checkExisitingEmail = await stripe.customers.search({
+        query: `email: \'${req.params.email}\'`,
+    }); */
+
+    //if(checkExisitingEmail) {
+
+  // ALT 2 
+     //check if stripe customer already exists
+ /*   const existingCustomers = await stripe.customers.list({
+      email
+    });
+  
+    //if stripe customer exists send error message
+    if (existingCustomers.data.length != 0) {
+      res.status(400).send({ type: 'Failed Stripe Sign Up', message: 'User Already Exists' });
+      return;
+    }  */
+
 
 
 app.post('/create-checkout-session', async (req, res) => {
