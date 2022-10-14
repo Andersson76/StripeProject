@@ -59,7 +59,6 @@ function createListItem(itemData) {
     var button = document.createElement("button");
     button.innerHTML = '<i class="fa fa-cart-arrow-down" aria-hidden="true"></i>' + "&nbsp;&nbsp;&nbsp;" + "Lägg till i kundvagnen";
     button.onclick = function () {
-        console.log(itemData);
         const existingItem = shoppingCart.find(i => i.name === itemData.name);
         if (existingItem) {
             existingItem.quantity++
@@ -105,8 +104,6 @@ function showShoppingCart() {
     content.appendChild(header);
     content.appendChild(list);
     content.appendChild(info);
-    
-  
 
     var container = document.querySelector("#main");
     container.replaceChild(content, container.firstChild);
@@ -137,7 +134,6 @@ function createShoppingCartItem(itemData, index) {
             /* Remove the item from the array */
             shoppingCart.splice(index, 1);
         }
-     
 
         /* Update the counter */
         counter = document.querySelector("#counter");
@@ -203,7 +199,8 @@ const createSession = async function() {
         let response = await fetch("/create-checkout-session", reqOptions)
         
         let sessionId = await response.json();
-        console.log(sessionId) // Får ut session Id i consollen
+        console.log(sessionId) 
+        /* return sessionId */
         
         const redirect = stripe.redirectToCheckout({sessionId}) 
         console.log(redirect)
@@ -219,6 +216,7 @@ function createInputField() {
 
     /* Create input fields */
     var input = document.createElement("div");
+    input.classList.add("container")
 
     let h1 = document.createElement("h1")
     h1.classList.add("h1")
@@ -229,79 +227,113 @@ function createInputField() {
     email.classList.add("email");
 
     let inputEmail = document.createElement("input");
-    inputEmail.setAttribute("type", "hidden");
     inputEmail.placeholder = "Ange emailadress";
     inputEmail.type = "text";
     inputEmail.pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
     inputEmail.required = true
     inputEmail.classList.add("input-field-email");
 
-    let name = document.createElement("p");
+  /*   let name = document.createElement("p");
     name.innerText = "Fullständigt namn"
-    name.classList.add("name");
+    name.classList.add("name"); */
 
     let inputName = document.createElement("input");
-    inputName.setAttribute("type", "hidden");
+    //inputName.setAttribute("class", "hidden")>
     inputName.placeholder = "Ange fullständigt namn";
     inputName.type = "text";  
     inputName.required = true
-    inputName.classList.add("input-field-name");
+    inputName.classList.add("input-field-name")
 
-    let phone = document.createElement("p");
+    /* let phone = document.createElement("p");
     phone.innerText = "Telefonnummer"
-    phone.classList.add("phone");
+    phone.classList.add("phone"); */
 
     let inputPhone = document.createElement("input");
-    inputPhone.setAttribute("type", "hidden");
+    //inputPhone.setAttribute("class", "hidden")
     inputPhone.placeholder = "Ange telefonnummer"; 
     inputPhone.type = "text";  
     inputPhone.pattern = "[0-9 +]+"
     inputPhone.required = true
-    inputPhone.classList.add("input-field-phone");
+    inputPhone.classList.add("input-field-phone")
 
+
+   // Create visible or hidden on element
    let getCustomerButton = document.createElement("button")
    getCustomerButton.innerHTML = "Hämta kund"; 
+
    getCustomerButton.addEventListener("click", async () => {
        let inputEmail = document.getElementsByClassName("input-field-email")[0].value
-
-       let collectedCustomer = await getCustomer(inputEmail) // skicka med variablen creatsession?
+       let collectedCustomer = await getCustomer(inputEmail) 
        console.log(collectedCustomer) 
    })
 
- let registerButton = document.createElement("button")
-   registerButton.innerHTML = "Registrera kund"; 
-   registerButton.addEventListener("click", async () => {
-    let inputEmail = document.getElementsByClassName("input-field-email")[0].value
+   // Create visible or hidden on element
+    let registerButton = document.createElement("button")
+    registerButton.innerHTML = "Registrera kund"; 
+
+   registerButton.addEventListener("click", async () => { 
+        let inputEmail = document.getElementsByClassName("input-field-email")[0].value
         let inputName = document.getElementsByClassName("input-field-name")[0].value 
         let inputPhone = document.getElementsByClassName("input-field-phone")[0].value
-   
-        let registerCustomer = await createCustomer(inputEmail, inputName, inputPhone) // skicka med variablen creatsession?
-        console.log(registerCustomer) // = customer.id i konsolen
+
+        let checkOutCustomer = await createCustomer(inputEmail, inputName, inputPhone) 
+        console.log(checkOutCustomer) 
    })
 
    input.appendChild(h1)
    input.appendChild(email)
    input.appendChild(inputEmail)
-   input.appendChild(name)
+  /*  input.appendChild(name) */
    input.appendChild(inputName)
-   input.appendChild(phone)
+  /*  input.appendChild(phone) */
    input.appendChild(inputPhone) 
    input.appendChild(getCustomerButton)  
    input.appendChild(registerButton)
 
    return input
-
 }
 
+/* function showHide(inputEmail) {
 
-const getCustomer = async function(email) { // hämtar kund - email
+    if(inputEmail) {
+        document.getElementsByClassName("input-field-name").classList.add("hidden")
+        document.getElementsByClassName("input-field-phone").classList.add("hidden")
+    } else {
+        document.getElementsByClassName("input-field-name").classList.remove("hidden")
+        document.getElementsByClassName("input-field-phone").classList.remove("hidden")   
+    }
+    
+} */
+
+
+/*
+        if(isLoading) {
+            document.getElementsByClassName("input-field-email").disabled = true
+            document.getElementsByClassName("input-field-name").classList.remove("hidden")
+            document.getElementsByClassName("input-field-phone").classList.add("hidden");
+        } else {
+            document.getElementsByClassName("input-field-email").disabled = false
+            document.getElementsByClassName("input-field-name").classList.add("hidden");
+            document.getElementsByClassName("input-field-phone").classList.remove("hidden")
+        }
+}  */
+
+  /*  if(document.getElementsByClassName("input-field-email") == true ) {
+    document.getElementById("myEmail").disabled = true; // inaktiverar inputfältet
+    document.getElementsByClassName("input-field-name").style.visibility = "visable"
+    document.getElementsByClassName("input-field-phone").style.visibility = "visable"
+   } else {
+    document.getElementsByClassName("input-field-name").style.visibility = "hidden"
+    document.getElementsByClassName("input-field-phone").style.visibility = "hidden"
+   } */
+
+const getCustomer = async function(email) { 
 
     try {
-        console.log(email)
         const response = await fetch("http://localhost:3000/getCustomer/" + email)
         console.log(response)
 
-        let data = await response.json();
+        let data = await response.json(); // vi får tillbaka customer.id
         console.log(data) 
         return data  
 
@@ -319,7 +351,7 @@ const createCustomer = async function(email, name, phone) {
             name,
             phone,
         }    
-        console.log(newCustomer)  
+        /* console.log(newCustomer)   */
 
         const customerOpt = {
             method: 'POST',
@@ -331,10 +363,9 @@ const createCustomer = async function(email, name, phone) {
         console.log(response) 
 
         let customerId = await response.json();
-        console.log(customerId) // customer id i consollen..
         return customerId
 
     }catch(err) {
-        console.log(err)
+        console.error("Error", err)
     }
 }
