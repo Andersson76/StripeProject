@@ -5,6 +5,10 @@ body {
     padding-top: 80px;
 }
 
+.hidden {
+    display: none;
+}
+
 .success{
     display: flex;
     justify-content: center;
