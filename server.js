@@ -104,12 +104,13 @@ app.post('/create-checkout-session', async (req, res) => {
   });
 
 console.log(session)
-  res.json(session.id);
+res.status(200).json(session.id);
+  /* res.json(session.id); */
 
 });
 
 
-app.post("/verify-checkout/:sessionId", async (req, res) => {
+app.post("/orderSuccess/:sessionId", async (req, res) => {
   try {
     
 /*

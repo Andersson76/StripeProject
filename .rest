@@ -6,3 +6,10 @@ Content-Type: application/json
 ###
 
 GET http://localhost:3000/getCustomer/lisa@hfdjkf
+
+###
+
+POST http://localhost:3000/orderSuccess/:sessionId
+Content-Type: application/json
+
+{}

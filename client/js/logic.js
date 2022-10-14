@@ -411,12 +411,11 @@ const verifyCheckOutSession = async () => {
     const orderOpt = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body, 
+        body
     }
 
-    let response = await fetch("/create-customer", orderOpt + sessionId) 
+    let response = await fetch("/orderSuccess", orderOpt + sessionId) 
     console.log(response) 
-
    
    const paidOrder = await response.json();
         if (paidOrder) {
