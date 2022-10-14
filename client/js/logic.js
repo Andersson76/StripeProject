@@ -369,3 +369,62 @@ const createCustomer = async function(email, name, phone) {
         console.error("Error", err)
     }
 }
+
+
+// Validation 
+
+/* 
+plocka ut getparameten session id i parametern och spara ner det till en variable i verify??
+
+// sucess_url (om betalningen gick bra - getparameter, finnns från stripe) 
+och cancel_url (om betalningen gick dåligt) - plockar ut det i clienten.. res.json(id: session)
+
+// PÅ clienten efter det gick bra i köpet - //verifyCheckOutSession() -
+
+sparar ordern hos oss i vår json-fil & verifyera att betalningen är gjort och om den lagts till.. 
+i funktionen plockar vi ur parametern om session id frinns (URL), 
+
+if(sessionId) - verifeira att session är ok. skicka med sessionId i res.json...
+
+// app.post - stripe.checkout.session.retrieve - 
+
+if sats för att kolla om ordern är betald 
+"paid", då kan ordern aldrig bli lagt om betalningen inte är gjord.
+
+// const processingOrder = [] -
+ ta bort från listan när ordern är lagd - ordern blir inte dubletter.. / Servern..
+
+ 
+// Skickar tillbaka till clienten om verifationen på ordern är gjord - 
+confirmation - window.localtion.pathname = "confirmation" 
+ */
+
+
+const verifyCheckOutSession = async () => {
+  try {
+
+// plocka ut getparameten session id i parametern och spara ner det till en variable i verify?
+    
+    const sessionParams = new URLSearchParams(window.location.search)
+    const sessionId = sessionParams.get("session_id")
+
+    const orderOpt = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body, 
+    }
+
+    let response = await fetch("/create-customer", orderOpt + sessionId) 
+    console.log(response) 
+
+   
+   const paidOrder = await response.json();
+        if (paidOrder) {
+            window.location.pathname = "confirmation" 
+        
+    } 
+
+  } catch (err) {
+    console.error(err);
+  }
+};

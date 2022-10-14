@@ -14,6 +14,10 @@ body {
     justify-content: center;
 }
 
+#main > div div {
+    width: 500px;
+}
+
 .input-field-name, .input-field-email, .input-field-phone {
     border-radius: 6px;
     margin-bottom: 16px;
@@ -111,6 +115,7 @@ button {
     color: #fff;
     margin-top: 1em;
     cursor: pointer;
+    margin: 10px;
 }
 button:hover {
     background-color: #447CD0;
