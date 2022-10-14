@@ -95,7 +95,7 @@ app.post('/create-checkout-session', async (req, res) => {
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"], 
-     // customer: req.body.newCustomer - kopplad till createCustomer
+    customer: req.body.newCustomer, //- kopplad till createCustomer
 
     line_items,
     mode: 'payment',
@@ -107,6 +107,51 @@ console.log(session)
   res.json(session.id);
 
 });
+
+
+app.post("/verify-checkout/:sessionId", async (req, res) => {
+  try {
+    
+/*
+    // if(sessionId) - verifeira att session är ok. skicka med sessionId i res.json...
+
+    if(sessionId) - verifeira att session är ok. skicka med sessionId i res.json...
+
+// app.post - stripe.checkout.session.retrieve - 
+
+if sats för att kolla om ordern är betald 
+"paid", då kan ordern aldrig bli lagt om betalningen inte är gjord.
+
+// const processingOrder = [] -
+ ta bort från listan när ordern är lagd - ordern blir inte dubletter.. / Servern.. */
+   
+    const sessionId = req.params.sessionId;
+    const session = await stripe.checkout.sessions.retrieve(sessionId)
+    console.log(session)
+
+    let checkIfpaid = session.payment_status == "paid"
+
+    if(checkIfpaid) {
+      let order = fs.readFileSync("order.json")
+      orderData = JSON.parse(order)
+    }
+
+  } catch (err) {
+    res.status(400).json(err.message);
+  } 
+
+  })
+
+   /* checkout.session.completed / webhooks */
+  
+/* app.get('/order/success', async (req, res) => {
+  const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
+  const customer = await stripe.customers.retrieve(session.customer);
+
+  res.send(`<html><body><h1>Thanks for your order, ${customer.name}!</h1></body></html>`);
+});
+
+ */
 
 app.use((err, req, res, next) => {
     console.log(err.status)
