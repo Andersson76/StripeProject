@@ -1,10 +1,10 @@
 {
   "dependencies": {
-    "dotenv": "^16.0.2",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "node-fetch": "^3.2.10",
     "nodemon": "^2.0.22",
-    "stripe": "^10.10.0",
+    "stripe": "^10.17.0",
     "y": "^0.3.2"
   },
   "name": "stripeproject",
@@ -14,13 +14,13 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Andersson76/StripeProject.git"
   },
-  "author": "",
+  "author": "Martin",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Andersson76/StripeProject/issues"
