@@ -1,9 +1,9 @@
 {
   "dependencies": {
     "dotenv": "^16.0.2",
-    "express": "^4.18.1",
+    "express": "^4.18.2",
     "node-fetch": "^3.2.10",
-    "nodemon": "^2.0.19",
+    "nodemon": "^2.0.21",
     "stripe": "^10.10.0",
     "y": "^0.3.2"
   },
@@ -25,5 +25,6 @@
   "bugs": {
     "url": "https://github.com/Andersson76/StripeProject/issues"
   },
-  "homepage": "https://github.com/Andersson76/StripeProject#readme"
+  "homepage": "https://github.com/Andersson76/StripeProject#readme",
+  "keywords": []
 }
